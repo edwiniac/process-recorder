@@ -1,0 +1,5 @@
+[console_scripts]
+process-recorder = process_recorder.main:main
+
+[gui_scripts]
+process-recorder-gui = process_recorder.main:main

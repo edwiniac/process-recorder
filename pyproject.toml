@@ -1,0 +1,87 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "process-recorder"
+version = "0.1.0"
+description = "Watch Me, Learn, Repeat - Desktop automation through demonstration"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Edwin Isac", email = "edwinisac007@gmail.com"}
+]
+keywords = ["automation", "vision", "ai", "desktop", "recording"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Desktop Environment",
+]
+
+dependencies = [
+    # Screen capture
+    "mss>=9.0.0",
+    "Pillow>=10.0.0",
+    
+    # Mouse/keyboard
+    "pynput>=1.7.0",
+    "pyautogui>=0.9.54",
+    
+    # GUI
+    "PyQt6>=6.6.0",
+    
+    # Vision/AI
+    "ollama>=0.1.0",
+    "anthropic>=0.18.0",
+    "httpx>=0.27.0",
+    
+    # Utilities
+    "pyyaml>=6.0",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-html>=4.1.0",
+    "pytest-json-report>=1.5.0",
+    "black>=24.0.0",
+    "ruff>=0.2.0",
+    "mypy>=1.8.0",
+]
+
+[project.scripts]
+process-recorder = "process_recorder.main:main"
+
+[project.gui-scripts]
+process-recorder-gui = "process_recorder.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "W", "I", "N"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true

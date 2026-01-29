@@ -1,0 +1,42 @@
+# ProcessRecorder Configuration
+# Last Updated: 2026-01-29
+
+vision:
+  # Provider: "ollama" (local, free) or "claude" (API, paid)
+  provider: "ollama"
+  
+  # Ollama settings (used when provider is "ollama")
+  ollama_model: "llava:13b"
+  ollama_base_url: "http://localhost:11434"
+  
+  # Claude settings (used when provider is "claude")
+  # Set via environment variable ANTHROPIC_API_KEY or directly here
+  claude_api_key: null
+  claude_model: "claude-3-5-sonnet-20241022"
+
+recording:
+  # Screenshot capture interval in milliseconds
+  screenshot_interval_ms: 500
+  
+  # Also capture screenshot on every click
+  capture_on_click: true
+  
+  # Maximum screenshots per recording (prevents runaway)
+  max_screenshots: 1000
+
+replay:
+  # Delay between actions in milliseconds
+  action_delay_ms: 500
+  
+  # How long to search for an element before failing
+  element_find_timeout_ms: 5000
+  
+  # Minimum confidence to accept element match
+  confidence_threshold: 0.7
+
+storage:
+  # Where to save raw recordings
+  recordings_dir: "./recordings"
+  
+  # Where to save processed workflows
+  workflows_dir: "./workflows"
