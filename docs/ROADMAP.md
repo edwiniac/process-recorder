@@ -187,9 +187,9 @@ A working prototype that can:
 
 | Sprint | Status | Completion | Notes |
 |--------|--------|------------|-------|
-| Sprint 0 | 🟡 In Progress | 70% | Docs done, env setup pending |
-| Sprint 1 | ⚪ Not Started | 0% | |
-| Sprint 2 | ⚪ Not Started | 0% | |
+| Sprint 0 | ✅ Complete | 100% | Foundation & docs |
+| Sprint 1 | ✅ Complete | 100% | 50 tests passing |
+| Sprint 2 | ✅ Complete | 100% | 88 new tests (138 total) |
 | Sprint 3 | ⚪ Not Started | 0% | |
 | Sprint 4 | ⚪ Not Started | 0% | |
 | Sprint 5 | ⚪ Not Started | 0% | |
