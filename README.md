@@ -1,90 +1,96 @@
-# ProcessRecorder 🎬
+# ProcessRecorder
 
 **Watch Me, Learn, Repeat** — Desktop automation through demonstration.
 
-Record yourself doing a task, let AI understand it semantically, replay on demand.
+Record a task once. AI understands what you did. Replay it anytime.
 
-## 🎯 What It Does
+---
+
+## ✨ Features
+
+- **🎥 Record** — Captures mouse clicks, keyboard input, screenshots
+- **🧠 Learn** — AI vision identifies UI elements and builds semantic workflows
+- **▶️ Replay** — Finds elements on the live screen and repeats your actions
+- **🎨 GUI** — Dark-themed PyQt6 interface with live stats and progress
+- **🔄 Dual Vision** — Ollama/LLaVA (local, free) or Claude (API, high accuracy)
+- **⚡ Error Recovery** — Stop, skip, or retry failed steps during replay
+
+## 🏗 Architecture
 
 ```
-1. You: Click "Record"
-2. You: Do the task manually (AI watches screenshots)
-3. You: Click "Stop"
-4. AI: "I learned: Open Chrome → Go to Gmail → Click Compose..."
-5. Later: "Hey AI, do that email thing" → It replays
+┌─────────────────────────────────────┐
+│           GUI (PyQt6)               │
+├─────────────────────────────────────┤
+│         App Controller              │
+├──────────┬──────────┬───────────────┤
+│ Recorder │ Learner  │   Replayer    │
+├──────────┴──────────┴───────────────┤
+│      Vision Adapter (ABC)           │
+│    Ollama/LLaVA  ↔  Claude API     │
+└─────────────────────────────────────┘
 ```
 
 ## 🚀 Quick Start
 
-### Prerequisites
-
-- Python 3.10+
-- Windows 10/11
-- Ollama (for local AI): [ollama.com](https://ollama.com)
-
-### Installation
-
 ```bash
-# Clone the repo
-git clone https://github.com/your-username/process-recorder.git
+# Clone and setup
+git clone https://github.com/edwiniac/process-recorder.git
 cd process-recorder
-
-# Create virtual environment
-python -m venv venv
-venv\Scripts\activate  # Windows
-
-# Install dependencies
+python -m venv venv && source venv/bin/activate
 pip install -e ".[dev]"
 
-# Pull the vision model (one-time)
+# Optional: Install Ollama for local AI
 ollama pull llava:13b
-```
 
-### Running
-
-```bash
+# Launch
 process-recorder
 ```
 
-## 🏗️ Architecture
+## 📊 Test Coverage
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                       GUI Layer                          │
-├─────────────────────────────────────────────────────────┤
-│                    Controller Layer                      │
-├──────────────┬──────────────┬──────────────┬────────────┤
-│   Recorder   │   Learner    │   Replayer   │  Storage   │
-├──────────────┴──────────────┴──────────────┴────────────┤
-│                    Vision Adapter                        │
-│              (Ollama/LLaVA ↔ Claude API)                │
-└─────────────────────────────────────────────────────────┘
+265 tests passing | 5 modules | ~5,500 lines of code
+
+Sprint 1: Recording Module     — 50 tests  ✅
+Sprint 2: Vision Integration   — 88 tests  ✅
+Sprint 3: Replay Engine        — 68 tests  ✅
+Sprint 4: GUI Components       — 39 tests  ✅
+Sprint 5: E2E Integration      —  7 tests  ✅
 ```
 
 ## 📁 Project Structure
 
 ```
-process-recorder/
-├── src/process_recorder/
-│   ├── recorder/     # Screen + event capture
-│   ├── learner/      # Vision → semantic steps
-│   ├── replayer/     # Execute workflows
-│   ├── vision/       # AI model adapters
-│   ├── storage/      # Persistence
-│   ├── gui/          # PyQt6 interface
-│   └── controller/   # Business logic
-├── tests/
-│   ├── unit/
-│   ├── integration/
-│   └── e2e/
-├── docs/
-│   ├── REQUIREMENTS.md
-│   ├── ARCHITECTURE.md
-│   ├── TEST_PLAN.md
-│   └── ROADMAP.md
-├── recordings/       # Raw recordings
-├── workflows/        # Processed workflows
-└── config.yaml       # Configuration
+src/process_recorder/
+├── recorder/          # Screen capture + event listening
+│   ├── screen_capturer.py
+│   ├── event_listener.py
+│   └── recording_session.py
+├── vision/            # AI vision adapters
+│   ├── base.py        # Abstract interface
+│   ├── ollama_adapter.py
+│   ├── claude_adapter.py
+│   ├── factory.py     # Auto-detect + fallback
+│   └── prompts.py     # Engineered prompts
+├── learner/           # Recording → Workflow
+│   ├── action_classifier.py
+│   ├── semantic_extractor.py
+│   └── workflow_processor.py
+├── replayer/          # Workflow → Actions
+│   ├── element_finder.py
+│   ├── action_executor.py
+│   └── replay_engine.py
+├── gui/               # PyQt6 interface
+│   ├── main_window.py
+│   ├── recording_panel.py
+│   ├── workflow_list.py
+│   ├── replay_panel.py
+│   ├── settings_dialog.py
+│   └── styles.py
+├── controller/        # Wires GUI ↔ backend
+├── models.py          # Data structures
+├── config.py          # YAML config
+└── main.py            # Entry point
 ```
 
 ## ⚙️ Configuration
@@ -93,9 +99,8 @@ Edit `config.yaml`:
 
 ```yaml
 vision:
-  provider: "ollama"  # or "claude"
+  provider: "ollama"        # or "claude"
   ollama_model: "llava:13b"
-  claude_api_key: null  # Set env ANTHROPIC_API_KEY
 
 recording:
   screenshot_interval_ms: 500
@@ -106,38 +111,22 @@ replay:
   confidence_threshold: 0.7
 ```
 
-## 🧪 Testing
+## 🛠 Development
 
 ```bash
-# Run all tests
+# Run tests
 pytest tests/ -v
 
 # Run with coverage
-pytest tests/ --cov=src/process_recorder --cov-report=html
+pytest tests/ --cov=process_recorder
 
-# Run E2E tests with evidence collection
-./tests/collect_evidence.sh E2E-01
+# Type checking
+mypy src/
+
+# Format
+black src/ tests/
 ```
 
-## 📊 Development Status
+## 📝 License
 
-| Sprint | Status | Description |
-|--------|--------|-------------|
-| Sprint 0 | ✅ | Foundation & docs |
-| Sprint 1 | 🔄 | Recording module |
-| Sprint 2 | ⏳ | Vision integration |
-| Sprint 3 | ⏳ | Replay engine |
-| Sprint 4 | ⏳ | GUI |
-| Sprint 5 | ⏳ | Integration & polish |
-
-## 🤝 Contributing
-
-See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE)
-
----
-
-Built with ❤️ by Edwin Isac
+MIT — Built by Edwin Isac
