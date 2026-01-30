@@ -111,6 +111,34 @@ replay:
   confidence_threshold: 0.7
 ```
 
+## ⚠️ Known Limitations
+
+### Vision Accuracy
+- **LLaVA (local)** provides decent but imperfect UI element detection. Pixel-level coordinate accuracy varies.
+- **Claude (API)** is significantly more accurate but incurs cost per API call.
+- Neither model achieves 100% reliability for element location on arbitrary UIs.
+
+### Replay Fragility
+- **UI changes break replays** — if buttons move, resize, change color, or the window layout shifts, the vision model may fail to locate elements.
+- **Dynamic content** — loading spinners, popups, toast notifications, and animations can interfere with element finding. No smart "wait for element" logic yet.
+- **Speed** — each replay step requires a vision API call (2–10s per step depending on model), so replays are not instantaneous.
+
+### Platform & Environment
+- **Multi-monitor / DPI scaling** — not tested; may cause coordinate mismatches on high-DPI or multi-display setups.
+- **Privileged applications** — Windows apps running as administrator (Task Manager, UAC prompts) may block input simulation for security reasons.
+- **Linux** — requires X11 display server for screen capture and input events. Wayland is not supported.
+
+### Architectural
+- **No accessibility tree** — purely vision-based element detection. Does not use OS-level UI Automation APIs (win32, AT-SPI), so it's essentially "looking at pixels."
+- **No template matching fallback** — relies solely on LLM vision; no OpenCV-style image template matching for faster/cheaper element finding.
+
+### Future Improvements (Roadmap)
+- Hybrid element finding (vision + OS accessibility APIs)
+- Smart waits for UI state changes
+- OpenCV template matching as a fast fallback
+- Workflow editing and step modification
+- Conditional branching and loops in workflows
+
 ## 🛠 Development
 
 ```bash
