@@ -1,5 +1,10 @@
 # ProcessRecorder
 
+[![CI](https://github.com/edwiniac/process-recorder/actions/workflows/ci.yml/badge.svg)](https://github.com/edwiniac/process-recorder/actions/workflows/ci.yml)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Tests](https://img.shields.io/badge/tests-265%20passed-brightgreen.svg)](#-test-coverage)
+
 **Watch Me, Learn, Repeat** — Desktop automation through demonstration.
 
 Record a task once. AI understands what you did. Replay it anytime.
